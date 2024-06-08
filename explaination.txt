@@ -2,3 +2,5 @@ remove useless attribute.example movies id,hosting site.
 divide data to two parts numerical and non numerical attribute.
 remove missing dataset for better accuracy
 remove ones having less than 100k cause it becomes hard to predict
+convert non numerical to numerical attributes
+convert spoken_lang,genres and production companies to binary
