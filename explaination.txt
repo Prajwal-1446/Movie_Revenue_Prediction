@@ -4,3 +4,6 @@ remove missing dataset for better accuracy
 remove ones having less than 100k cause it becomes hard to predict
 convert non numerical to numerical attributes
 convert spoken_lang,genres and production companies to binary
+data is analysed using regression
+movies is grouped using genre
+em and k mean clustering is used 
