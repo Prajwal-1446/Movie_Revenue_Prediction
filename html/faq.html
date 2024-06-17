@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Movie Generator</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .faq-answer {
+            display: none;
+            margin-top: 10px;
+        }
+        .faq-answer.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FAQ - Movie Generator</h1>
+        </header>
+        <main>
+            <section class="faq-item">
+                <h2 class="faq-question">How does Movie Generator work?</h2>
+                <div class="faq-answer">
+                    <p>Movie Generator allows you to create unique movie plots by selecting genres and other parameters. It generates a synopsis or storyline based on your preferences.</p>
+                </div>
+            </section>
+            <section class="faq-item">
+                <h2 class="faq-question">Is Movie Generator free to use?</h2>
+                <div class="faq-answer">
+                    <p>Yes, Movie Generator is completely free to use. You can generate movie plots without any cost.</p>
+                </div>
+            </section>
+            <section class="faq-item">
+                <h2 class="faq-question">Can I save or share the generated movie plots?</h2>
+                <div class="faq-answer">
+                    <p>Currently, Movie Generator does not support saving or sharing generated plots directly on the platform. You can manually copy and save the generated content for personal use.</p>
+                </div>
+            </section>
+            <section class="faq-item">
+                <h2 class="faq-question">How accurate are the generated movie plots?</h2>
+                <div class="faq-answer">
+                    <p>The accuracy of the generated plots depends on the input parameters and the complexity of the plot generation algorithm. It aims to provide creative prompts rather than fully detailed movie scripts.</p>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Movie Generator. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for toggling FAQ answers
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(function(question) {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    answer.classList.toggle('show');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

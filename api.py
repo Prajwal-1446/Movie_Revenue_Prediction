@@ -3,6 +3,11 @@ import pandas as pd
 import numpy as np
 import ast
 import os
+from sklearn.model_selection import train_test_split as tts
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score,accuracy_score
+from sklearn.linear_model import LinearRegression
+from  sklearn.preprocessing import PolynomialFeatures
+from sklearn.decomposition import PCA
 
 app = Flask(__name__)
 
@@ -10,7 +15,6 @@ def load_data():
     raw_data = pd.read_csv('tmdb_5000_movies.csv')
     cast_data = pd.read_csv('tmdb_5000_credits.csv')
     joined_data = raw_data.merge(cast_data,left_on='id', right_on='movie_id', how='inner')
-    print(joined_data.head(1))
     data=joined_data[['title_x','budget','revenue','vote_average','vote_count','runtime','genres','spoken_languages','production_countries','release_date','cast']].copy()
     data.dropna(inplace=True)
     data = data[data['revenue']>=100000]
@@ -76,10 +80,12 @@ def load_data():
     df.drop(columns=['release_date', 'Day of Week'], inplace=True)
     pd.set_option('display.max_columns', None)
     final_data=df.copy()
-    final_data.to_csv('final_data.csv')
+    print(final_data.keys)
+    final_data.to_csv('final_data.csv',index='title_x')
         
 def split_data():
     data=pd.read_csv('final_data.csv')
+    print(data.keys)
     y=data['revenue'].values
     final_data_x=data.drop('revenue',axis=1)
     x=final_data_x.values
@@ -87,19 +93,60 @@ def split_data():
 
 def train_data():
     x,y=split_data()
+    xtrain,xtest,ytrain,ytest=tts(x,y,test_size=1/3)
+    return xtrain,xtest,ytrain,ytest
     
-    
+def train_split(x,y):
+    xtrain,xtest,ytrain,ytest=tts(x,y,test_size=1/3)
+    return xtrain,xtest,ytrain,ytest
+            
     
 def linear_model():
-        
+    xtrain,xtest,ytrain,ytest=train_data()
+    model = LinearRegression()
+    model.fit(xtrain,ytrain)
+    ypred=model.predict(xtest)
+    print("MAE",mean_absolute_error(ytest,ypred))
+    print("MSE",mean_squared_error(ytest,ypred))
+    print("RMSE",np.sqrt(mean_squared_error(ytest,ypred)))
+    print("R2_Score",r2_score(ytest,ypred))
+    return model
+
+    
+def poly_mod():
+    x,y=split_data()
+    pca = PCA(n_components=50)
+    x_pca = pca.fit_transform(x)
+    poly = PolynomialFeatures(degree = 2, include_bias=True)
+    x_poly=poly.fit_transform(x_pca)
+    xtrain,xtest,ytrain,ytest=train_split(x_poly,y)
+    polymodel=LinearRegression()
+    polymodel.fit(xtrain,ytrain)
+    ypred=polymodel.predict(xtest)
+    print("MAE",mean_absolute_error(ytest,ypred))
+    print("MSE",mean_squared_error(ytest,ypred))
+    print("RMSE",np.sqrt(mean_squared_error(ytest,ypred)))
+    print("R2_Score",r2_score(ytest,ypred))
+    return polymodel
 
 
-@app.route('/linear', methods=['GET'])
+@app.route('/linear', methods=['POST'])
 def linear():
     model=linear_model()
-    return {'msg':'work'}
+    input_data = request.json
+    input_df = pd.DataFrame([input_data])
+    prediction = model.predict(input_df.values)
     
+    return jsonify({'prediction': prediction[0]})
 
+@app.route('/poly', methods = ['POST'])
+def polyy():
+    model=poly_mod()
+    input_data = request.json
+    input_df = pd.DataFrame([input_data])
+    prediction = model.predict(input_df.values)
+    
+    
 if __name__ == '__main__':
     file_path = 'final_data.csv'
     if os.path.exists(file_path):
