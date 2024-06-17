@@ -4,82 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Revenue Predictor</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4+oG9sAgD7lptVJH0sKqPFS0B8HGSoBs7Ld2+ocHhZ92Edp7iL+a9cxa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+P9UOghA6eePboJpXm4lsJ/y8u9/hzfxJrDz92I8C+5YryRgzfdl7QLFW" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-ltrjvnR4+oG9sAgD7lptVJH0sKqPFS0B8HGSoBs7Ld2+ocHhZ92Edp7iL+a9cxa" crossorigin="anonymous"></script>
     <script>
-      $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-      });
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Movie Predictor</a>
-        <div class="container">
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="/"
-                  data-toggle="tooltip"
-                  data-placement="bottom"
-                  title="Home"
-                >
-                  Home
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="about.html"
-                  data-toggle="tooltip"
-                  data-placement="bottom"
-                  title="About Us"
-                >
-                  About Us
-                </a>
-              </li>
-             
-              
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="faq.html"
-                  data-toggle="tooltip"
-                  data-placement="bottom"
-                  title="FAQs"
-                >
-                  FAQs
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about" data-toggle="tooltip" data-placement="bottom" title="About Us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faq" data-toggle="tooltip" data-placement="bottom" title="FAQs">FAQs</a>
+                </li>
             </ul>
-          </div>
         </div>
     </nav>
 
     <div class="container mt-5 pt-5">
         <h2 class="mb-4">Movie Revenue Predictor</h2>
-        <form id="movieForm">
+        <form id="movieForm" action="/predict" method="post">
             <div class="form-group">
                 <label for="movieTitle">Movie Title</label>
-                <input type="text" class="form-control" id="movieTitle" placeholder="Enter movie title" required>
+                <input type="text" class="form-control" id="Title" name="Title" placeholder="Enter movie title" required>
+            </div>
+            <div class="form-group">
+                <label for="Voteavg">Vote Average</label>
+                <input type="number" class="form-control" id="Voteavg" name="Voteavg" placeholder="Enter Average voting recieved (0-10)" required>
+            </div>
+            <div class="form-group">
+                <label for="Votenum">Vote count</label>
+                <input type="number" class="form-control" id="Votenum" name="Votenum" placeholder="Enter Number of people who voted" required>
+            </div> 
+            <div class="form-group">
+                <label for="runtime">Runtime</label>
+                <input type="number" class="form-control" id="runtime" name="runtime" placeholder="Enter runtime in minutes" required>
             </div>
             <div class="form-group">
                 <label for="movieGenre">Genre</label>
-                <select multiple class="form-control" id="movieGenre" required>
+                <select multiple class="form-control" id="movieGenre" name="movieGenre" required>
                     <option>Action</option>
                     <option>Adventure</option>
                     <option>Animation</option>
@@ -106,7 +82,7 @@
             </div>
             <div class="form-group">
                 <label for="country">Country</label>
-                <select multiple class="form-control" id="country" required>
+                <select multiple class="form-control" id="country" name="country" required>
                     <option>Afghanistan</option>
                     <option>Albania</option>
                     <option>Algeria</option>
@@ -218,116 +194,34 @@
                     <option>Mauritius</option>
                     <option>Mexico</option>
                     <option>Micronesia</option>
-                    <option>Moldova</option>
-                    <option>Monaco</option>
-                    <option>Mongolia</option>
-                    <option>Montenegro</option>
-                    <option>Morocco</option>
-                    <option>Mozambique</option>
-                    <option>Myanmar</option>
-                    <option>Namibia</option>
-                    <option>Nauru</option>
-                    <option>Nepal</option>
-                    <option>Netherlands</option>
-                    <option>New Zealand</option>
-                    <option>Nicaragua</option>
-                    <option>Niger</option>
-                    <option>Nigeria</option>
-                    <option>North Korea</option>
-                    <option>North Macedonia</option>
-                    <option>Norway</option>
-                    <option>Oman</option>
-                    <option>Pakistan</option>
-                    <option>Palau</option>
-                    <option>Palestine</option>
-                    <option>Panama</option>
-                    <option>Papua New Guinea</option>
-                    <option>Paraguay</option>
-                    <option>Peru</option>
-                    <option>Philippines</option>
-                    <option>Poland</option>
-                    <option>Portugal</option>
-                    <option>Qatar</option>
-                    <option>Romania</option>
-                    <option>Russia</option>
-                    <option>Rwanda</option>
-                    <option>Saint Kitts and Nevis</option>
-                    <option>Saint Lucia</option>
-                    <option>Saint Vincent and the Grenadines</option>
-                    <option>Samoa</option>
-                    <option>San Marino</option>
-                    <option>Sao Tome and Principe</option>
-                    <option>Saudi Arabia</option>
-                    <option>Senegal</option>
-                    <option>Serbia</option>
-                    <option>Seychelles</option>
-                    <option>Sierra Leone</option>
-                    <option>Singapore</option>
-                    <option>Slovakia</option>
-                    <option>Slovenia</option>
-                    <option>Solomon Islands</option>
-                    <option>Somalia</option>
-                    <option>South Africa</option>
-                    <option>South Korea</option>
-                    <option>South Sudan</option>
-                    <option>Spain</option>
-                    <option>Sri Lanka</option>
-                    <option>Sudan</option>
-                    <option>Suriname</option>
-                    <option>Sweden</option>
-                    <option>Switzerland</option>
-                    <option>Syria</option>
-                    <option>Taiwan</option>
-                    <option>Tajikistan</option>
-                    <option>Tanzania</option>
-                    <option>Thailand</option>
-                    <option>Timor-Leste</option>
-                    <option>Togo</option>
-                    <option>Tonga</option>
-                    <option>Trinidad and Tobago</option>
-                    <option>Tunisia</option>
-                    <option>Turkey</option>
-                    <option>Turkmenistan</option>
-                    <option>Tuvalu</option>
-                    <option>Uganda</option>
-                    <option>Ukraine</option>
-                    <option>United Arab Emirates</option>
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>Uruguay</option>
-                    <option>Uzbekistan</option>
-                    <option>Vanuatu</option>
-                    <option>Vatican City</option>
-                    <option>Venezuela</option>
-                    <option>Vietnam</option>
-                    <option>Yemen</option>
-                    <option>Zambia</option>
-                    <option>Zimbabwe</option>
+                    <!-- Add other countries as needed -->
                 </select>
                 <small class="form-text text-muted">Hold down the Ctrl (Windows) / Command (Mac) button to select multiple options.</small>
             </div>
             <div class="form-group">
                 <label for="releaseDate">Release Date</label>
-                <input type="date" class="form-control" id="releaseDate" required>
-            </div>
-            <div class="form-group">
-                <label for="budget">Budget ($)</label>
-                <input type="number" class="form-control" id="budget" placeholder="Enter budget in dollars" required>
-            </div>
-            <div class="form-group">
-                <label for="releaseDay">Day of the Week</label>
-                <select multiple class="form-control" id="releaseDay" required>
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Predict Revenue</button>
-        </form>
-    </div>
-</body>
-</html>
+                <input type="date" class="form-control" id="releaseDate" name="releaseDate" required>
+           
+                <div class="form-group">
+                  <label for="budget">Budget</label>
+                  <input type="number" class="form-control" id="budget" name="budget" placeholder="Enter budget in USD" required>
+              </div>
+              <div class="form-group">
+                  <label for="releaseDay">Release Day</label>
+                  <select multiple class="form-control" id="releaseDay" name="releaseDay" required>
+                      <option>Monday</option>
+                      <option>Tuesday</option>
+                      <option>Wednesday</option>
+                      <option>Thursday</option>
+                      <option>Friday</option>
+                      <option>Saturday</option>
+                      <option>Sunday</option>
+                  </select>
+                  <small class="form-text text-muted">Hold down the Ctrl (Windows) / Command (Mac) button to select multiple options.</small>
+              </div>
+              <button type="submit" class="btn btn-primary">Predict Revenue</button>
+          </form>
+      </div>
+  </body>
+  </html>
+  

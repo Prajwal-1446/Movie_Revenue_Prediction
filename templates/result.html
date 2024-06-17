@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Prediction Result</title>
+    <!-- Bootstrap CSS link, adjust as per your setup -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Movie Prediction Result</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Movie Information</h5>
+                <p class="card-text"><strong>Title:</strong> {{ title }}</p>
+                <p class="card-text"><strong>Genres:</strong> {{ genre | join(", ") }}</p>
+                <p class="card-text"><strong>Country:</strong> {{ country | join(", ") }}</p>
+                <p class="card-text"><strong>Release Date:</strong> {{ release_date }}</p>
+                <p class="card-text"><strong>Budget:</strong> ${{ budget }}</p>
+                <p class="card-text"><strong>Release Day:</strong> {{ release_day | join(", ") }}</p>
+                <p class="card-text"><strong>Predicted Revenue:</strong>${{revenur}}</p>
+            </div>
+        </div>
+
+        <!-- Link back to the home page -->
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js, adjust as per your setup -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-QQnrXKuWUMhDxj6oOr9W3Qo4HZm5Yw2/7MkCGWU4nq53tLoGgEynJvFnOm1K8MB4" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh5Rp4LHMELzgTtfEzqdI6GmV3f6A/JmL2QqN" crossorigin="anonymous"></script>
+</body>
+</html>

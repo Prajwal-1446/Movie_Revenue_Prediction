@@ -85,6 +85,7 @@ def load_data():
         
 def split_data():
     data=pd.read_csv('final_data.csv')
+    data.drop(columns='title_x',inplace=True)
     print(data.keys)
     y=data['revenue'].values
     final_data_x=data.drop('revenue',axis=1)
@@ -92,6 +93,7 @@ def split_data():
     return x,y
 
 def train_data():
+    print("train")
     x,y=split_data()
     xtrain,xtest,ytrain,ytest=tts(x,y,test_size=1/3)
     return xtrain,xtest,ytrain,ytest
@@ -132,12 +134,129 @@ def poly_mod():
 
 @app.route('/linear', methods=['POST'])
 def linear():
-    model=linear_model()
-    input_data = request.json
+    model = linear_model()  # Assuming this function initializes and trains your model
+    input_data = request.json  # Assuming JSON data is sent in the request
     input_df = pd.DataFrame([input_data])
+    
+    # Initialize all genre, country, and day columns to False
+    genres = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Family",
+    "Fantasy",
+    "Foreign",
+    "History",
+    "Horror",
+    "Music",
+    "Mystery",
+    "Romance",
+    "Science Fiction",
+    "Thriller",
+    "War","Western"]
+
+    
+    countries = [
+    "Argentina",
+    "Australia",
+    "Austria",
+    "Bahamas",
+    "Belgium",
+    "Bolivia",
+    "Brazil",
+    "Bulgaria",
+    "Canada",
+    "Chile",
+    "China",
+    "Czech Republic",
+    "Denmark",
+    "Dominica",
+    "Fiji",
+    "Finland",
+    "France",
+    "Germany",
+    "Greece",
+    "Hong Kong",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iran",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Kazakhstan",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Mexico",
+    "Monaco",
+    "Morocco",
+    "Netherlands",
+    "New Zealand",
+    "Norway",
+    "Pakistan",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "Russia",
+    "Serbia",
+    "Serbia and Montenegro",
+    "Singapore",
+    "Slovenia",
+    "South Africa",
+    "South Korea",
+    "Spain",
+    "Sweden",
+    "Switzerland",
+    "Taiwan",
+    "Thailand",
+    "Tunisia",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States of America"
+]
+
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    
+    for genre in genres:
+        input_df[genre] = False
+    for country in countries:
+        input_df[country] = False
+    for day in days:
+        input_df[day] = False
+
+    # Set the appropriate columns to True based on the input data
+    for genre in input_data.get('genres', []):
+        if genre in genres:
+            input_df[genre] = True
+    for country in input_data.get('production_countries', []):
+        if country in countries:
+            input_df[country] = True
+    for day in input_data.get('release_day', []):
+        if day in days:
+            input_df[day] = True
+    
+    # Ensure the input_df has the same columns as the training data
+    required_columns = [col for col in input_df.columns if col != 'revenue']  # Adjust based on your actual columns
+    input_df = input_df[required_columns]
+    columns_to_drop = ['title_x', 'genres', 'production_countries', 'release_date', 'release_day']
+    input_df = input_df.drop(columns=[col for col in columns_to_drop if col in input_df.columns])
+    # # Make prediction
+    print(input_df.keys())
+
     prediction = model.predict(input_df.values)
     
-    return jsonify({'prediction': prediction[0]})
+    return jsonify({'prediction': prediction.tolist()})
+
 
 @app.route('/poly', methods = ['POST'])
 def polyy():
@@ -147,7 +266,9 @@ def polyy():
     prediction = model.predict(input_df.values)
     
     return jsonify({'prediction': prediction[0]})
-    
+@app.route('/ping', methods=['GET'])
+def ping():
+    return "Pong", 200
     
 if __name__ == '__main__':
     file_path = 'final_data.csv'
@@ -155,5 +276,5 @@ if __name__ == '__main__':
         print("Data already created")
     else:
         load_data()
-    app.run(debug=True)
+    app.run(host='127.0.0.1',port=5001,debug=True)
     
