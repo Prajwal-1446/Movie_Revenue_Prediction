@@ -265,7 +265,7 @@ def polyy():
     input_df = pd.DataFrame([input_data])
     prediction = model.predict(input_df.values)
     
-    return jsonify({'prediction': prediction[0]})
+    return jsonify({'prediction': prediction[1]})
 @app.route('/ping', methods=['GET'])
 def ping():
     return "Pong", 200

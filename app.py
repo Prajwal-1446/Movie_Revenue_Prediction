@@ -55,6 +55,7 @@ def predict():
         response.raise_for_status()  # This will raise an HTTPError if the HTTP request returned an unsuccessful status code
         revenue = response.json()
         print('Predicted Revenue:', revenue)
+        rev=revenue['prediction'][0]
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
@@ -63,7 +64,7 @@ def predict():
     # Here, we just pass it to a new page to display
     return render_template('result.html', title=movie_title, genre=movie_genre,
                            country=country, release_date=release_date,
-                           budget=budget, release_day=release_day,revenue=100000)
+                           budget=budget, release_day=release_day,revenue=rev)
 
 if __name__ == '__main__':
   
