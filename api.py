@@ -146,6 +146,8 @@ def polyy():
     input_df = pd.DataFrame([input_data])
     prediction = model.predict(input_df.values)
     
+    return jsonify({'prediction': prediction[0]})
+    
     
 if __name__ == '__main__':
     file_path = 'final_data.csv'
